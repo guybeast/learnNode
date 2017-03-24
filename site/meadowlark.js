@@ -5,14 +5,10 @@ var handlebars = require('express3-handlebars').create({defaultLayout:'main'});
 
 	app.engine('handlebars',handlebars.engine);
 	app.set('view engine','handlebars');
+	// "./"前缀是告诉Node，它不应该到node_modules目录中查找这个模块，如果我们忽略这个前缀就会导致失败
 
-	var fortunes = [
-			'Conquer your fears or they will conquer you.- 战胜你的恐惧，别被你的恐惧击败。',
-			'Revers need springs. - 河流需要春天唤醒 ',
-			'Do not fear what you don`t know - 不去害怕未知的事物',
-			'You will have a pleasant surprise. -你将会获得美好的惊喜 ',
-			'Whenever possible, keep it simple.- 保持简单，就能成功.',
-		];
+var fortune = require('./lib/fortune.js');
+
 
 app.set('port',process.env.PORT || 3000);
 
@@ -30,8 +26,8 @@ app.get('/',function(req,res){
 app.get('/about',function(req,res){
 	// res.type('text/plain');
 	// res.send('About Meadowlark Travel');
-	var randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
-	res.render('about',{fortune:randomFortune});
+	// var randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
+	res.render('about',{fortune:fortune.getFortune()});
 });
 
 //定制404页面
